@@ -2,6 +2,7 @@ import random
 
 import pygame.sprite
 
+from bird import Bird
 from coin import Coin
 from core import settings
 from core.artefacts import Artefact
@@ -14,10 +15,12 @@ class Game:
         self.all_sprites = pygame.sprite.Group()
         self.all_pipes = pygame.sprite.Group()
         self.all_coins = pygame.sprite.Group()
+        self.all_birds = pygame.sprite.Group()
         self.background1 = Artefact("assets/sky.png", 0, 0, self.all_sprites)
         self.background2 = Artefact("assets/sky.png", 360, 0, self.all_sprites)
         self.ground1 = Artefact("assets/ground.png", 0, 480, self.all_sprites)
         self.ground2 = Artefact("assets/ground.png", 360, 480, self.all_sprites)
+        self.bird = Bird(50, 320, self.all_sprites, self.all_birds)
 
         self.create_pipes()
         self.ticks = 0
