@@ -12,6 +12,8 @@ class Bird(Artefact):
         self.ticks = 0
         self.velocity = 4
         self.gravity = 1
+        self.power = 1
+        self.points = 0
         
     def update(self, *args):
         self.animate()
@@ -40,3 +42,6 @@ class Bird(Artefact):
         if self.rect[1] <= 0:
             self.rect[1] = 0
             self.velocity = 4
+
+    def check_collide(self, group, kill=False):
+        return pygame.sprite.spritecollide(self, group, kill)
