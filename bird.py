@@ -13,29 +13,36 @@ class Bird(Artefact):
         self.velocity = 4
         self.gravity = 1
         self.power = 1
+        self.is_alive = True
         self.points = 0
         
     def update(self, *args):
+        self.is_alive = self.power > 0
         self.animate()
         self.move()
     
     def animate(self):
-        self.ticks = (self.ticks + 1) % 4
-        self.image = pygame.image.load(self.file_name.format(self.ticks))        
+        if self.is_alive:
+            self.ticks = (self.ticks + 1) % 4
+            self.image = pygame.image.load(self.file_name.format(self.ticks))
 
     def move(self):
         ground = 440
         velocity = 15
+        if self.is_alive:
+            key = pygame.key.get_pressed()
+            self.velocity += self.gravity
+            self.rect[1] += self.velocity
 
-        key = pygame.key.get_pressed()
-        self.velocity += self.gravity
-        self.rect[1] += self.velocity
+            if self.velocity >= velocity:
+                self.velocity = velocity
 
-        if self.velocity >= velocity:
-            self.velocity = velocity
-
-        if key[pygame.K_SPACE]:
-            self.velocity -= 5
+            if key[pygame.K_SPACE]:
+                self.velocity -= 5
+        else:
+            self.velocity += self.gravity
+            self.rect[1] += self.velocity
+            self.rect[0] -= 2
 
         if self.rect[1] >= ground:
             self.rect[1] = ground
@@ -44,4 +51,7 @@ class Bird(Artefact):
             self.velocity = 4
 
     def check_collide(self, group, kill=False):
-        return pygame.sprite.spritecollide(self, group, kill)
+        is_collide = False
+        if self.is_alive:
+            is_collide = pygame.sprite.spritecollide(self, group, kill)
+        return is_collide
