@@ -6,8 +6,8 @@ from core.base_artefact import BaseArtefact
 
 class AnimatedArtefact(BaseArtefact):
 
-    def __init__(self, image, pos_x=0, pos_y=0, frames=(1, 4)):
-        super().__init__(image.format(1), pos_x, pos_y)
+    def __init__(self, image, x, y, frames=(1, 4)):
+        super().__init__(image.format(1), x, y)
         self.tick = 0
         self.tick_limit = settings.FPS
 

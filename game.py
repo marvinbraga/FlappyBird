@@ -2,6 +2,7 @@ import random
 
 import pygame.sprite
 
+from coin import Coin
 from core import settings
 from core.artefacts import Artefact
 from pipe import Pipe, PipeType
@@ -11,21 +12,25 @@ class Game:
 
     def __init__(self):
         self.all_sprites = pygame.sprite.Group()
+        self.all_pipes = pygame.sprite.Group()
+        self.all_coins = pygame.sprite.Group()
         self.background1 = Artefact("assets/sky.png", 0, 0, self.all_sprites)
         self.background2 = Artefact("assets/sky.png", 360, 0, self.all_sprites)
         self.ground1 = Artefact("assets/ground.png", 0, 480, self.all_sprites)
         self.ground2 = Artefact("assets/ground.png", 360, 480, self.all_sprites)
 
-        self.pipes = []
         self.create_pipes()
         self.ticks = 0
+        self._base_pos = 300
 
     def create_pipes(self):
-        pos = random.randrange(300, 450)
-        self.pipes += [
-            Pipe(PipeType.BOTTOM, 360, pos, self.all_sprites),
-            Pipe(PipeType.TOP, 360, pos - 550, self.all_sprites)
-        ]
+        self._base_pos = random.randrange(300, 450)
+        Pipe(PipeType.BOTTOM, 360, self._base_pos, self.all_sprites, self.all_pipes),
+        Pipe(PipeType.TOP, 360, self._base_pos - 550, self.all_sprites, self.all_pipes)
+        self.create_coin()
+
+    def create_coin(self):
+        Coin(388, self._base_pos - 120, self.all_sprites, self.all_coins)
 
     def draw(self, window):
         self.all_sprites.draw(window)

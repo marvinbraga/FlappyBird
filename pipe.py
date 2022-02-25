@@ -12,9 +12,9 @@ class PipeType(Enum):
 
 class Pipe(Artefact):
 
-    def __init__(self, pipe_type=PipeType.BOTTOM, pos_x=0, pos_y=0, *groups: AbstractGroup):
+    def __init__(self, pipe_type=PipeType.BOTTOM, x=0, y=0, *groups: AbstractGroup):
         self._file_name = "assets/pipe{}.png"
-        super().__init__(self._file_name.format(pipe_type.value), pos_x, pos_y, *groups)
+        super().__init__(self._file_name.format(pipe_type.value), x, y, *groups)
 
     def update(self):
         self._move()
