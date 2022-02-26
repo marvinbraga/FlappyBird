@@ -28,7 +28,7 @@ class Bird(Artefact):
 
     def move(self):
         ground = 440
-        velocity = 15
+        velocity = 20
         if self.is_alive:
             key = pygame.key.get_pressed()
             self.velocity += self.gravity

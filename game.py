@@ -23,11 +23,14 @@ class Game:
         self.ground2 = Artefact("assets/ground.png", 360, 480, self.all_sprites)
         self.bird = Bird(50, 320, self.all_sprites, self.all_birds)
 
-        self.score = Text("0", 100)
+        self.score_shadow = Text("0", 100, color=(35, 103, 125))
+        self.score = Text("0", 100, color=(255, 255, 255))
         self.finished = False
         self.create_pipes()
         self.ticks = 0
         self._base_pos = 300
+
+        self.change_scene = False
 
     def create_pipes(self):
         self._base_pos = random.randrange(300, 450)
@@ -40,6 +43,7 @@ class Game:
 
     def draw(self, window):
         self.all_sprites.draw(window)
+        self.score_shadow.draw(window, 173, 23)
         self.score.draw(window, 170, 20)
 
     def update(self):
@@ -51,6 +55,7 @@ class Game:
             self.bird.check_collide(self.all_coins, True)
         )
         self.score.update(str(self.bird.points))
+        self.score_shadow.update(str(self.bird.points))
         self.all_sprites.update()
 
     def check(self, is_pipe_collide, is_coin_collide):
@@ -60,7 +65,7 @@ class Game:
         if is_coin_collide:
             self.bird.points += 1
             print(f"Pontos: {self.bird.points}")
-        self.finished = self.bird.is_alive
+        self.finished = not self.bird.is_alive
 
     def move_artefact(self, artefact1, artefact2, velocity):
         artefact1.rect[0] = 0 if artefact1.rect[0] <= -360 else artefact1.rect[0] - velocity
